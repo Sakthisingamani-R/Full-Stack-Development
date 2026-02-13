@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+<head>
+    <title>Simple To-Do List</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input {
+            padding: 8px;
+            width: 200px;
+        }
+
+        button {
+            padding: 8px;
+            margin-left: 5px;
+        }
+
+        li {
+            list-style: none;
+            margin: 10px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body ng-controller="todoController">
+
+    <h2>📝 My To-Do List</h2>
+
+    <!-- Input box -->
+    <input type="text" ng-model="newTask" placeholder="Enter a task">
+
+    <!-- Add button -->
+    <button ng-click="addTask()">Add</button>
+
+    <ul>
+        <li ng-repeat="task in tasks">
+
+            <!-- Checkbox -->
+            <input type="checkbox" ng-model="task.completed">
+
+            <!-- Task name -->
+            <span ng-class="{'completed': task.completed}">
+                {{task.name}}
+            </span>
+
+            <!-- Delete button -->
+            <button ng-click="deleteTask($index)">Delete</button>
+        </li>
+    </ul>
+
+<script>
+    // Create Angular Module
+    var app = angular.module("todoApp", []);
+
+    // Create Controller
+    app.controller("todoController", function($scope) {
+
+        // Empty task list
+        $scope.tasks = [];
+
+        // Add Task Function
+        $scope.addTask = function() {
+            if ($scope.newTask) {
+                $scope.tasks.push({
+                    name: $scope.newTask,
+                    completed: false
+                });
+                $scope.newTask = ""; // clear input
+            }
+        };
+
+        // Delete Task Function
+        $scope.deleteTask = function(index) {
+            $scope.tasks.splice(index, 1);
+        };
+
+    });
+</script>
+
+</body>
+</html>
